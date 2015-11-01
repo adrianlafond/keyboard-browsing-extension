@@ -1,4 +1,4 @@
-var main = require("../");
+var main = require("../src/");
 
 exports["test main"] = function(assert) {
   assert.pass("Unit test running!");
