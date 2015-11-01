@@ -1,0 +1,19 @@
+{
+  "title": "Spatial Navigation",
+  "name": "keyboard-browsing-extension",
+  "version": "0.0.1",
+  "description": "An add-on that implements spatial navigation on web pages.",
+  "main": "index.js",
+  "author": "Adrian Lafond <adrian@disbranded.com>",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack",
+    "spatial",
+    "spatial navigation",
+    "keyboard"
+  ]
+}
