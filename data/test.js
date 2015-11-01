@@ -1,1 +1,1 @@
-console.log('test.js');
+let test = 'testing!';
