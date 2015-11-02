@@ -4,8 +4,9 @@ var pageMod = require('sdk/page-mod');
 pageMod.PageMod({
   include: '*',
   contentScriptFile: [
-    data.url('test.js'),
-    data.url('test2.js')
+    data.url('linksobserver.js'),
+    data.url('spatialnavigation.js'),
+    data.url('main.js')
   ]
 });
 
