@@ -5,3 +5,6 @@ node_modules
 # Firefox add-ons
 .zip
 .xpi
+
+# lib
+_assets

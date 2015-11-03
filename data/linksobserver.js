@@ -2,7 +2,7 @@
   'use strict';
 
   let callbacks = new Set();
-  let rawLinks = [];
+  let rawLinks = new Set();
   let links = [];
 
   function getLinks() {
@@ -10,7 +10,7 @@
     for (let el of elements) {
       if (el.tabIndex !== -1 && el !== document.body) {
         let rect = el.getBoundingClientRect();
-        rawLinks.push(el);
+        rawLinks.add(el);
         links.push({
           el,
           rect: el.getBoundingClientRect()
@@ -29,12 +29,12 @@
     mutations.forEach(record => {
       for (let node of record.addedNodes) {
         if (node.tabIndex !== -1) {
-          elements.add(node);
+          rawLinks.add(node);
         }
       }
       for (node of record.removeNodes) {
         if (node.tabIndex !== -1) {
-          elements.delete(node);
+          rawLinks.delete(node);
         }
       }
       invokeCallbacks();
@@ -53,7 +53,7 @@
       callbacks.add(callback);
       if (callbacks.size === 1) {
         getLinks();
-        // observer.observe(document.body, config);
+        observer.observe(document.body, config);
         invokeCallbacks();
       }
     }
@@ -64,7 +64,7 @@
       callbacks.delete(callback);
       if (callbacks.size === 0) {
         observer.disconnect();
-        rawLinks = [];
+        rawLinks.clear();
         links = [];
       }
     }
