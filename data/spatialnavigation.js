@@ -7,7 +7,7 @@ let SpatialNavigation = (function () {
   const RIGHT = 39;
 
   let active = false;
-  let links = [];
+  let links = new Set();
   let modKeys = ['altKey'];
   let nonModKeys;
 
@@ -42,35 +42,34 @@ let SpatialNavigation = (function () {
   }
 
   function onKeyDown(event) {
-    if (links.length === 0) {
-      return;
-    }
+    if (links.size === 0) { return; }
     for (let key of nonModKeys) {
-      if (event[key]) {
-        return;
-      }
+      if (event[key]) { return; }
     }
     for (let key of modKeys) {
-      if (!event[key]) {
-        return;
-      }
+      if (!event[key]) { return;}
     }
+
     let activeEl = document.activeElement;
+    let iter = links.values();
+    let el = iter.next().value;
+    // el = iter.next().value;
+    // console.log(el.getBoundingClientRect().left);
     if (!activeEl || activeEl.nodeName === 'BODY') {
-      links[0].el.focus();
+      el.value.focus();
     } else {
       switch (event.keyCode || event.key) {
         case UP:
-          links[1].el.focus();
+          el.value.focus();
           break;
         case DOWN:
-          links[2].el.focus();
+          el.value.focus();
           break;
         case LEFT:
-          links[3].el.focus();
+          el.value.focus();
           break;
         case RIGHT:
-          links[4].el.focus();
+          el.value.focus();
           break;
       }
     }

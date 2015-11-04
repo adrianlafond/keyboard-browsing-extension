@@ -1,24 +1,20 @@
-let LinksObserver = (function () {
+var LinksObserver = (function () {
   'use strict';
 
   let callbacks = new Set();
-  let rawLinks = new Set();
-  let links = [];
+  let links = new Set();
 
+  // Create a set of all tab-enabled elements that are not document.body.
   function getLinks() {
-    let elements = document.body.querySelectorAll('*');
-    for (let el of elements) {
+    var elements = document.body.querySelectorAll('*');
+    for (var el of elements) {
       if (el.tabIndex !== -1 && el !== document.body) {
-        let rect = el.getBoundingClientRect();
-        rawLinks.add(el);
-        links.push({
-          el: el,
-          rect: el.getBoundingClientRect()
-        })
+        links.add(el);
       }
     }
   }
 
+  // Send links to all callbacks/listeners.
   function invokeCallbacks() {
     callbacks.forEach(cb => {
       cb(links);
@@ -29,12 +25,12 @@ let LinksObserver = (function () {
     mutations.forEach(record => {
       for (let node of record.addedNodes) {
         if (node.tabIndex !== -1) {
-          rawLinks.add(node);
+          links.add(node);
         }
       }
-      for (node of record.removeNodes) {
+      for (let node of record.removedNodes) {
         if (node.tabIndex !== -1) {
-          rawLinks.delete(node);
+          links.delete(node);
         }
       }
       invokeCallbacks();
@@ -53,7 +49,7 @@ let LinksObserver = (function () {
       callbacks.add(callback);
       if (callbacks.size === 1) {
         getLinks();
-        // observer.observe(document.body, config);
+        observer.observe(document.body, config);
         invokeCallbacks();
       }
     }
@@ -61,11 +57,10 @@ let LinksObserver = (function () {
 
   function disconnect(callback) {
     if (callbacks.has(callback)) {
-      callbacks.delete(callback);
+      callbacks.devare(callback);
       if (callbacks.size === 0) {
-        // observer.disconnect();
-        rawLinks = [];
-        links = [];
+        observer.disconnect();
+        links.clear();
       }
     }
   }
