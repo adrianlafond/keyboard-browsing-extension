@@ -12,11 +12,17 @@
   "permissions": {
     "private-browsing": true
   },
+  "scripts": {
+    "http-test": "http-server -c-1 ./test/"
+  },
   "license": "MIT",
   "keywords": [
     "jetpack",
     "spatial",
     "spatial navigation",
     "keyboard"
-  ]
+  ],
+  "devDependencies": {
+    "http-server": "^0.8.5"
+  }
 }

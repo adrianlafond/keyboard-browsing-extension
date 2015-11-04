@@ -1,4 +1,4 @@
-(function (root) {
+let SpatialNavigation = (function () {
   'use strict';
 
   const UP = 38;
@@ -7,7 +7,7 @@
   const RIGHT = 39;
 
   let active = false;
-  let links = null;
+  let links = [];
   let modKeys = ['altKey'];
   let nonModKeys;
 
@@ -17,7 +17,7 @@
       active = true;
       document.addEventListener('keydown', onKeyDown, true);
     }
-    links = newLinks;
+    links = newLinks || links;
     if (newModKeys) {
       updateModKeys(newModKeys);
     }
@@ -34,7 +34,7 @@
     modKeys = newModKeys;
     nonModKeys = ['ctrlKey', 'shiftKey', 'altKey', 'metaKey'];
     modKeys.forEach(key => {
-      var index = nonModKeys.indexOf(key);
+      let index = nonModKeys.indexOf(key);
       if (index !== -1) {
         nonModKeys.splice(index, 1);
       }
@@ -77,12 +77,6 @@
   }
 
   updateModKeys(modKeys);
-  const SpatialNavigation = { go, stop };
+  return { go, stop };
 
-  if (typeof module === 'object' && module.exports) {
-    module.exports = SpatialNavigation;
-  } else {
-    root.SpatialNavigation = SpatialNavigation;
-  }
-
-}(this));
+}());

@@ -1,4 +1,4 @@
-(function (root) {
+let LinksObserver = (function () {
   'use strict';
 
   let callbacks = new Set();
@@ -6,13 +6,13 @@
   let links = [];
 
   function getLinks() {
-    var elements = document.body.querySelectorAll('*');
+    let elements = document.body.querySelectorAll('*');
     for (let el of elements) {
       if (el.tabIndex !== -1 && el !== document.body) {
         let rect = el.getBoundingClientRect();
         rawLinks.add(el);
         links.push({
-          el,
+          el: el,
           rect: el.getBoundingClientRect()
         })
       }
@@ -53,7 +53,7 @@
       callbacks.add(callback);
       if (callbacks.size === 1) {
         getLinks();
-        observer.observe(document.body, config);
+        // observer.observe(document.body, config);
         invokeCallbacks();
       }
     }
@@ -63,22 +63,12 @@
     if (callbacks.has(callback)) {
       callbacks.delete(callback);
       if (callbacks.size === 0) {
-        observer.disconnect();
-        rawLinks.clear();
+        // observer.disconnect();
+        rawLinks = [];
         links = [];
       }
     }
   }
 
-  const LinksObserver = {
-    connect,
-    disconnect
-  };
-
-  // Export.
-  if (typeof module === 'object' && module.exports) {
-    module.exports = LinksObserver;
-  } else {
-    root.LinksObserver = LinksObserver;
-  }
-}(this));
+  return { connect, disconnect };
+}());
